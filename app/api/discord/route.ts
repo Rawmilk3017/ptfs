@@ -20,7 +20,15 @@ export async function POST(req:NextRequest) {
   const signature=req.headers.get("x-signature-ed25519")||"";
   const timestamp=req.headers.get("x-signature-timestamp")||"";
   const publicKey=process.env.DISCORD_PUBLIC_KEY||"";
-  if(!publicKey || !verifyKey(raw,signature,timestamp,publicKey)) return new NextResponse("Invalid request signature",{status:401});
+if (!publicKey || !signature || !timestamp) {
+  return new NextResponse("Invalid request signature", { status: 401 });
+}
+
+const isValid = await verifyKey(raw, signature, timestamp, publicKey);
+
+if (!isValid) {
+  return new NextResponse("Invalid request signature", { status: 401 });
+}
   const interaction=JSON.parse(raw);
   if(interaction.type===1) return NextResponse.json({type:1});
   const member=interaction.member?.permissions;
