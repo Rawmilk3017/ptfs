@@ -15,7 +15,8 @@ export default async function Home() {
   const site=content.site||defaultContent.site;
   const schedule=content.schedule||defaultContent.schedule;
   const team=content.team||defaultContent.team;
-  const announcements=content.announcements||[];\n  const discordUrl=site.discordUrl||"https://discord.com";
+const announcements = content.announcements || [];
+const discordUrl = site.discordUrl || "https://discord.com";
   return <main>
     <header className="nav">
       <a className="brand" href="#"><span className="wing">✦</span><span>{site.logoText||"PTFS FLIGHT TEAM"}</span></a>
